@@ -1,24 +1,42 @@
+/**
+ * Main.java
+ * @author: Andrew McBurney
+ */
+
+// Java IO
+import java.io.File;
+import java.io.IOException;
+
+// Java util
+import java.util.Set;
 import java.util.Observable;
 
-// HelloMVC: a simple MVC example
-// the model is just a counter
-// inspired by code by Joseph Mack, http://www.austintek.com/mvc/
+// Serializer
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.core.ObjectCodec;
 
 public class Model extends Observable {
-	// the data in the model, just a counter
-	private int counter;
-	Model() {setChanged();}
+    public Model() { setChanged(); }
 
-	public int getCounterValue() {
-		return counter;
-	}
+    public void loadImage(String name) {
+        try {
+            this.drawing = jMap.readValue(new File("test.json"), Drawing.class);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
-	public void incrementCounter() {
-		if (counter < 5) {
-			counter++;
-			System.out.println("Model: increment counter to " + counter);
-			setChanged();
-			notifyObservers();
-		}
-	}
+    public void saveImage() {
+        try {
+            this.jMap.writeValue(new File("test.json"), this.drawing);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private ObjectMapper jMap = new ObjectMapper();
+    private Drawing drawing;
+    private Set<Stroke> strokes;
 }

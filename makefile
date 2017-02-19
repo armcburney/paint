@@ -1,15 +1,14 @@
-# super simple makefile
-# call it using 'make NAME=name_of_code_file_without_extension'
-# (assumes a .java extension)
 NAME = "Main"
+JFLAGS = -cp .:$(JARS) -g -d .
+JARS = jars/com.fasterxml.jackson.databind.jar:jars/com.fasterxml.jackson.core.jar:jars/com.fasterxml.jackson.annotations.jar
 
 all:
 	@echo "Compiling..."
-	javac *.java
+	javac $(JFLAGS) *.java model/*.java
 
 run: all
 	@echo "Running..."
-	java $(NAME)
+	java -cp $(JARS):. $(NAME)
 
 clean:
 	rm -rf *.class

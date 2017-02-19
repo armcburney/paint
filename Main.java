@@ -1,6 +1,6 @@
 /**
- *  Two views with integrated controllers.  Uses java.util.Observ{er, able} instead
- *  of custom IView.
+ * Main.java
+ * @author: Andrew McBurney
  */
 
 import javax.swing.*;
@@ -9,23 +9,27 @@ import java.awt.GridLayout;
 import java.awt.event.*;
 
 public class Main{
+    public static void main(String[] args) {
+        Model model = new Model();
+        View view = new View(model);
+        View2 view2 = new View2(model);
 
-	public static void main(String[] args) {
-		JFrame frame = new JFrame("HelloMVC4");
-		Model model = new Model();
-		View view = new View(model);
-		model.addObserver(view);
-		View2 view2 = new View2(model);
-		model.addObserver(view2);
-		// let all the views know that they're connected to the model
-		model.notifyObservers();
-		JPanel p = new JPanel(new GridLayout(2,1));
-		frame.getContentPane().add(p);
-		p.add(view);
-		p.add(view2);
-		frame.setPreferredSize(new Dimension(300,300));
-		frame.pack();
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.setVisible(true);
-	}
+        // Add observers to model and notify them
+        model.addObserver(view);
+        model.addObserver(view2);
+        model.notifyObservers();
+
+        // Create main JPanel
+        JFrame frame = new JFrame("Paint Clone");
+        JPanel panel = new JPanel(new GridLayout(1,2));
+        frame.getContentPane().add(panel);
+        panel.add(view);
+        panel.add(view2);
+
+        frame.setSize(800, 600);
+        frame.setMinimumSize(new Dimension(400, 300));
+        frame.pack();
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setVisible(true);
+    }
 }
