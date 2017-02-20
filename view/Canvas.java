@@ -1,44 +1,29 @@
-/**
- * Canvas.java
- * @author: Andrew McBurney
- */
 import javax.swing.*;
-import java.awt.BorderLayout;
-import java.awt.Dimension;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
+import java.awt.FlowLayout;
+import java.awt.Color;
 import java.awt.event.*;
-import java.util.Observable;
-import java.util.Observer;
+import java.util.*;
 
 class Canvas extends JPanel implements Observer {
-    // the view's main user interface
-    private JButton button;
-    private Model model;
-    private int xPos;
-    private int yPos;
+	private Model model;
+	private JLabel label = new JLabel();
 
-    View(Model model_) {
-        button = new JButton("?");
-        button.setMaximumSize(new Dimension(100, 50));
-        button.setPreferredSize(new Dimension(100, 50));
+	Canvas(Model model_) {
+		setBackground(Color.WHITE);
+		setLayout(new FlowLayout(FlowLayout.LEFT));
 
-        this.setLayout(new GridBagLayout());
-        this.add(button, new GridBagConstraints());
+		model = model_;
 
-        model = model_;
+		// Anonymous controller class
+		addMouseListener(new MouseAdapter() {
+				public void mouseClicked(MouseEvent e) {
+				}
+		});
+		this.add(this.label);
+	}
 
-        // Anonymous controller class
-        button.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                model.incrementCounter();
-            }
-        });
-    }
-
-    @Override
-    public void update(Observable arg0, Object arg1) {
-        System.out.println("View: update");
-        button.setText(Integer.toString(model.getCounterValue()));
-    }
+	@Override
+	public void update(Observable o, Object arg) {
+		System.out.println("View2: updateView");
+	}
 }

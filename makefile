@@ -4,7 +4,7 @@ JARS = jars/com.fasterxml.jackson.databind.jar:jars/com.fasterxml.jackson.core.j
 
 all:
 	@echo "Compiling..."
-	javac $(JFLAGS) *.java model/*.java
+	javac $(JFLAGS) *.java view/*.java model/*.java
 
 run: all
 	@echo "Running..."
