@@ -4,11 +4,11 @@ JARS = jars/com.fasterxml.jackson.databind.jar:jars/com.fasterxml.jackson.core.j
 
 all:
 	@echo "Compiling..."
-	javac $(JFLAGS) **/*.java
+	javac $(JFLAGS) src/main/java/*.java src/main/java/model/*.java src/main/java/view/*.java
 
 run: all
 	@echo "Running..."
-	java -cp $(JARS):. $(NAME)
+	java -cp $(JARS):. ca.andrewmcburney.cs349.a2.Main
 
 clean:
 	rm -rf *.class
