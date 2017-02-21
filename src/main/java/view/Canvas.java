@@ -1,3 +1,5 @@
+package ca.andrewmcburney.cs349.a2;
+
 import javax.swing.*;
 import java.awt.FlowLayout;
 import java.awt.Color;

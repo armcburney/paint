@@ -3,6 +3,8 @@
  * @author: Andrew McBurney
  */
 
+package ca.andrewmcburney.cs349.a2;
+
 // Java IO
 import java.io.File;
 import java.io.IOException;
@@ -18,7 +20,10 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.core.ObjectCodec;
 
 public class Model extends Observable {
-    public Model() { setChanged(); }
+    public Model() {
+        setChanged();
+        this.drawing = new Drawing("test", Set<Stroke>());
+    }
 
     public void loadImage(String name) {
         try {

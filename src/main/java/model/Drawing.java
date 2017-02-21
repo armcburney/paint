@@ -1,3 +1,6 @@
+
+package ca.andrewmcburney.cs349.a2;
+
 import java.util.Set;
 
 public class Drawing {

@@ -1,3 +1,5 @@
+package ca.andrewmcburney.cs349.a2;
+
 import javax.swing.*;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
@@ -24,6 +26,7 @@ class View extends JPanel implements Observer {
         // Anonymous controller class
         button.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
+                model.saveImage();
                 System.out.println("Button clicked");
             }
         });
