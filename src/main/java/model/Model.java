@@ -22,7 +22,7 @@ import com.fasterxml.jackson.core.ObjectCodec;
 public class Model extends Observable {
     public Model() {
         setChanged();
-        this.drawing = new Drawing("test", Set<Stroke>());
+        //this.drawing = new Drawing("test", Set<Stroke>());
     }
 
     public void loadImage(String name) {
