@@ -10,8 +10,7 @@ import java.io.File;
 import java.io.IOException;
 
 // Java util
-import java.util.Set;
-import java.util.Observable;
+import java.util.*;
 
 // Serializer
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -22,12 +21,12 @@ import com.fasterxml.jackson.core.ObjectCodec;
 public class Model extends Observable {
     public Model() {
         setChanged();
-        //this.drawing = new Drawing("test", Set<Stroke>());
+        this.drawing = new Drawing("test", new HashSet<Stroke>());
     }
 
     public void loadImage(String name) {
         try {
-            this.drawing = jMap.readValue(new File("test.json"), Drawing.class);
+            this.drawing = jMap.readValue(new File("files/test.json"), Drawing.class);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -35,7 +34,7 @@ public class Model extends Observable {
 
     public void saveImage() {
         try {
-            this.jMap.writeValue(new File("test.json"), this.drawing);
+            this.jMap.writeValue(new File("files/test.json"), this.drawing);
         } catch (IOException e) {
             e.printStackTrace();
         }
