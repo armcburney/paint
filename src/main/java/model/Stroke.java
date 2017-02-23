@@ -1,6 +1,7 @@
 package ca.andrewmcburney.cs349.a2;
 
 import java.util.Set;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class Stroke {
     public Stroke(int id, String color, final Coord startingPoint) {
@@ -19,8 +20,12 @@ public class Stroke {
     public Set<Coord> getCoordinates() { return this.coordinates; }
 
     // Data
+    @JsonProperty("id")
     private final int id;
+    @JsonProperty("color")
     private final String color;
+    @JsonProperty("isDisplayed")
     private boolean isDisplayed;
+    @JsonProperty("coordinates")
     private Set<Coord> coordinates;
 }

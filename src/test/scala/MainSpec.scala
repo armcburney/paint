@@ -10,7 +10,7 @@ package ca.andrewmcburney.cs349.a2
 import Main._
 import org.specs2.mutable.Specification
 
-class MainSpec extends Specification {
+class MainSpec extends Specification with Mockito {
   "Main" should {
     "true == true" in {
       true mustEqual true
