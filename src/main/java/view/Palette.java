@@ -1,3 +1,8 @@
+/**
+ * Palette.java
+ * @author: Andrew McBurney
+ */
+
 package ca.andrewmcburney.cs349.a2;
 
 import javax.swing.*;
@@ -5,6 +10,7 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.Color;
 import java.awt.event.*;
 import java.util.Observable;
 import java.util.Observer;
@@ -15,8 +21,11 @@ class Palette extends JPanel implements Observer {
 
     Palette(Model model_) {
         button = new JButton("?");
-        //button.setMinimumSize(new Dimension(200, 360));
-        //button.setPreferredSize(new Dimension(200, 540));
+
+        setBorder(BorderFactory.createLineBorder(Color.BLACK));
+        setMinimumSize(new Dimension(200, 10000));
+        setMaximumSize(new Dimension(400, 10000));
+        setPreferredSize(new Dimension(400, 10000));
 
         this.setLayout(new GridBagLayout());
         this.add(button, new GridBagConstraints());

@@ -1,6 +1,9 @@
 /**
  * Main.java
+ *
  * @author: Andrew McBurney
+ * Instantiate views and add them as observers to the model. Creates main
+ * gridBagLayout for app
  */
 
 package ca.andrewmcburney.cs349.a2;
@@ -39,6 +42,7 @@ public class Main {
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
 
+        gridBagConstraints.insets = new Insets(0, 0, 10, 0);
         gridBagConstraints.gridwidth = 2;
 
         gridBagLayout.setConstraints(topBar, gridBagConstraints);
@@ -65,7 +69,9 @@ public class Main {
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 1;
 
+        gridBagConstraints.insets = new Insets(0, 0, 0, 0);
         gridBagConstraints.gridwidth = 1;
+
         gridBagLayout.setConstraints(palette, gridBagConstraints);
         frame.getContentPane().add(palette);
 
@@ -74,6 +80,7 @@ public class Main {
         gridBagConstraints.gridy = 1;
 
         gridBagConstraints.gridwidth = 1;
+
         gridBagLayout.setConstraints(canvas, gridBagConstraints);
         frame.getContentPane().add(canvas);
 
@@ -89,15 +96,19 @@ public class Main {
 
         // Fill up the entire screen horizontally
         gridBagConstraints.fill = GridBagConstraints.HORIZONTAL;
+        //gridBagConstraints.anchor = GridBagConstraints.SOUTH;
 
         // Take up the remaining horizontal section
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.weighty = 0;
 
-        gridBagConstraints.anchor = GridBagConstraints.SOUTH;
+        // Third row, first column
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 2;
+
+        gridBagConstraints.insets = new Insets(10, 0, 0, 0);
         gridBagConstraints.gridwidth = 2;
+
         gridBagLayout.setConstraints(bottomBar, gridBagConstraints);
         frame.getContentPane().add(bottomBar);
 

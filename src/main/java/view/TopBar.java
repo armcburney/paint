@@ -21,7 +21,7 @@ class TopBar extends JPanel implements Observer {
     private Model model;
 
     TopBar(Model model_) {
-        setBackground(Color.GREEN);
+        setBorder(BorderFactory.createLineBorder(Color.BLACK));
 
         jFileChooser = new JFileChooser();
         jFileChooser.setCurrentDirectory(new File("~/Coding/paint/files"));

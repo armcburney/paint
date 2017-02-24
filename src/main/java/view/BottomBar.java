@@ -13,15 +13,12 @@ import java.awt.Color;
 
 class BottomBar extends JPanel implements Observer {
     private JButton button;
-    private JFileChooser jFileChooser;
     private Model model;
 
     BottomBar(Model model_) {
-        setBackground(Color.RED);
-        model = model_;
+        setBorder(BorderFactory.createLineBorder(Color.BLACK));
 
-        jFileChooser = new JFileChooser();
-        jFileChooser.setCurrentDirectory(new File("~/Coding/paint/files"));
+        model = model_;
     }
 
     @Override

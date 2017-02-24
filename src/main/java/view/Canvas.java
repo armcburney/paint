@@ -2,6 +2,7 @@ package ca.andrewmcburney.cs349.a2;
 
 import javax.swing.*;
 import java.awt.FlowLayout;
+import java.awt.Dimension;
 import java.awt.Color;
 import java.awt.event.*;
 import java.util.*;
@@ -13,6 +14,9 @@ class Canvas extends JPanel implements Observer {
 	Canvas(Model model_) {
 		setBackground(Color.WHITE);
 		setLayout(new FlowLayout(FlowLayout.LEFT));
+
+    setMinimumSize(new Dimension(400, 10000));
+    setPreferredSize(new Dimension(600, 10000));
 
 		model = model_;
 
