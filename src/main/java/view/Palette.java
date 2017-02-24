@@ -9,14 +9,14 @@ import java.awt.event.*;
 import java.util.Observable;
 import java.util.Observer;
 
-class View extends JPanel implements Observer {
+class Palette extends JPanel implements Observer {
     private JButton button;
     private Model model;
 
-    View(Model model_) {
+    Palette(Model model_) {
         button = new JButton("?");
-        button.setMaximumSize(new Dimension(100, 50));
-        button.setPreferredSize(new Dimension(100, 50));
+        //button.setMinimumSize(new Dimension(200, 360));
+        //button.setPreferredSize(new Dimension(200, 540));
 
         this.setLayout(new GridBagLayout());
         this.add(button, new GridBagConstraints());
@@ -34,6 +34,6 @@ class View extends JPanel implements Observer {
 
     @Override
     public void update(Observable observable, Object object) {
-        System.out.println("View: update");
+        System.out.println("Palette: update");
     }
 }

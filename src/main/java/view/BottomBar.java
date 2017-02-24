@@ -9,6 +9,7 @@ import java.awt.GridBagLayout;
 import java.awt.event.*;
 import java.util.Observable;
 import java.util.Observer;
+import java.awt.Color;
 
 class BottomBar extends JPanel implements Observer {
     private JButton button;
@@ -16,13 +17,15 @@ class BottomBar extends JPanel implements Observer {
     private Model model;
 
     BottomBar(Model model_) {
-        this.model = model_;
-        this.jFileChooser = new JFileChooser();
-        this.jFileChooser.setCurrentDirectory(new File("~/Coding/paint/files"));
+        setBackground(Color.RED);
+        model = model_;
+
+        jFileChooser = new JFileChooser();
+        jFileChooser.setCurrentDirectory(new File("~/Coding/paint/files"));
     }
 
     @Override
     public void update(Observable observable, Object object) {
-        System.out.println("Top Bar: update");
+        System.out.println("Bottom Bar: update");
     }
 }
