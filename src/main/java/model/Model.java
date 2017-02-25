@@ -33,7 +33,10 @@ public class Model extends Observable {
     }
 
     public void saveImage() {
+        System.out.println("Save image.");
         try {
+            setChanged();
+            notifyObservers();
             this.jMap.writeValue(new File("files/test.json"), this.drawing);
         } catch (IOException e) {
             e.printStackTrace();

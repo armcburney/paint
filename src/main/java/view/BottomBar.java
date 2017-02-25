@@ -1,3 +1,8 @@
+/**
+ * BottomBar.java
+ * @author: Andrew McBurney
+ */
+
 package ca.andrewmcburney.cs349.a2;
 
 import java.io.File;
@@ -13,10 +18,20 @@ import java.awt.Color;
 
 class BottomBar extends JPanel implements Observer {
     private JButton button;
+    private JSlider slider;
     private Model model;
+    private int ticks = 0;
 
     BottomBar(Model model_) {
         setBorder(BorderFactory.createLineBorder(Color.BLACK));
+
+        slider = new JSlider(JSlider.HORIZONTAL, 0, 0, 0);
+        slider.setMajorTickSpacing(1);
+        slider.setPaintTicks(true);
+        slider.setPaintLabels(true);
+
+        slider.setLabelTable(slider.createStandardLabels(1));
+        add(slider, BorderLayout.WEST);
 
         model = model_;
     }
@@ -24,5 +39,8 @@ class BottomBar extends JPanel implements Observer {
     @Override
     public void update(Observable observable, Object object) {
         System.out.println("Bottom Bar: update");
+        System.out.println("Ticks: " + ticks);
+        slider.setMaximum(++ticks);
+        slider.setValue(ticks);
     }
 }
