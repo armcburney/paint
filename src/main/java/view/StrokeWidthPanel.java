@@ -61,7 +61,7 @@ class StrokeWidthPanel extends JPanel implements Observer {
         setMinimumSize(new Dimension(160, 500));
         setMaximumSize(new Dimension(160, 500));
 
-
+        // Component listener for resize event
         addComponentListener(new ComponentAdapter() {
             public void componentResized(ComponentEvent e) {
                 System.out.println(e);
@@ -75,7 +75,7 @@ class StrokeWidthPanel extends JPanel implements Observer {
     private ActionListener actionListener = new ActionListener() {
         public void actionPerformed(ActionEvent e) {
             System.out.println("Button clicked - updating the stroke width.");
-            model.updateDrawing((g) -> g.setStrokeWidth(((JButton) e.getSource()).getName()));
+            model.updateDrawing((g) -> g.setStrokeWidth( Integer.parseInt( ((JButton) e.getSource()).getName() )) );
         }
     };
 
@@ -118,6 +118,5 @@ class StrokeWidthPanel extends JPanel implements Observer {
     @Override
     public void update(Observable observable, Object object) {
         System.out.println("StrokeWidthPanel: update");
-
     }
 }
