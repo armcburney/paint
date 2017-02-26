@@ -8,6 +8,15 @@ public class Coord {
         this.x = x;
         this.y = y;
     }
+
+    public int getX() {
+        return x;
+    }
+
+    public int getY() {
+        return y;
+    }
+
     @JsonProperty("x")
     private final int x;
     @JsonProperty("y")

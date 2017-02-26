@@ -28,7 +28,7 @@ interface DrawingLambda { void draw(Drawing g); }
 
 public class Model extends Observable {
     public Model() {
-        drawing = new Drawing("test");
+        drawing = new Drawing("temp");
     }
 
     /*--------------------------------------------------------------------*
@@ -53,7 +53,7 @@ public class Model extends Observable {
 
     public void loadImage(String name) {
         try {
-            this.drawing = jMap.readValue(new File("files/test.json"), Drawing.class);
+            drawing = jMap.readValue(new File("files/test.json"), Drawing.class);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -64,7 +64,7 @@ public class Model extends Observable {
         try {
             setChanged();
             notifyObservers();
-            this.jMap.writeValue(new File("files/test.json"), this.drawing);
+            jMap.writeValue(new File("files/test.json"), drawing);
         } catch (IOException e) {
             e.printStackTrace();
         }

@@ -9,6 +9,7 @@ public class Drawing {
     public Drawing(final String name_) {
         currentColour = Color.BLACK;
         name = name_;
+        strokeWidth = 15;
         strokes = new ArrayList<Stroke>();
     }
 
@@ -29,7 +30,8 @@ public class Drawing {
      *--------------------------------------------------------------------*/
 
     public void addStroke(Coord point) {
-        Stroke stroke = new Stroke(numStrokes() + 1, currentColour, point);
+        Stroke stroke = new Stroke(numStrokes() + 1, currentColour,
+                                   strokeWidth, point);
         strokes.add(stroke);
     }
 
@@ -47,6 +49,10 @@ public class Drawing {
 
     public int getStrokeWidth() {
         return strokeWidth;
+    }
+
+    public void addCoordToStroke(Coord point) {
+        strokes.get(strokes.size() - 1).addCoordinate(point);
     }
 
     /*--------------------------------------------------------------------*

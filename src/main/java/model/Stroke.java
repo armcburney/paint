@@ -1,32 +1,35 @@
 package ca.andrewmcburney.cs349.a2;
 
 import java.awt.Color;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.Arrays;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class Stroke {
-    public Stroke(int order, Color color, final Coord startingPoint) {
-        this.id = order;
-        this.color = color;
-        this.isDisplayed = true;
-        this.coordinates.add(startingPoint);
+    public Stroke(int id_, Color color_, int width_, final Coord startingPoint) {
+        id = id_;
+        color = color_;
+        width = width_;
+        coordinates = new ArrayList<Coord>() {{add(startingPoint);}};
     }
 
-    public void toggleDisplay() {this.isDisplayed = this.isDisplayed ? false : true;}
-    public void addCoordinate(final Coord newPoint) {this.coordinates.add(newPoint);}
+    public void addCoordinate(final Coord newPoint) {
+        coordinates.add(newPoint);
+    }
 
     // Class accessors for id, color, and coordinates
-    public int getId() { return this.id; }
-    public Color getColor() { return this.color; }
-    public Set<Coord> getCoordinates() { return this.coordinates; }
+    public int getId() { return id; }
+    public Color getColor() { return color; }
+    public int getWidth() { return width; }
+    public ArrayList<Coord> getCoordinates() { return coordinates; }
 
     // Data
     @JsonProperty("id")
     private final int id;
     @JsonProperty("color")
     private final Color color;
-    @JsonProperty("isDisplayed")
-    private boolean isDisplayed;
+    @JsonProperty("width")
+    private final int width;
     @JsonProperty("coordinates")
-    private Set<Coord> coordinates;
+    private ArrayList<Coord> coordinates;
 }
