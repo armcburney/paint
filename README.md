@@ -5,3 +5,4 @@ A simple paint clone made with Java, Swing and Scala. Saves images in JSON forma
 - Menu bar
 - Save, load doodles
 - JSlider and playback
+- Filter out files not in format with file chooser

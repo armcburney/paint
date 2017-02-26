@@ -22,8 +22,6 @@ class BottomBar extends JPanel implements Observer {
     private Model model;
 
     BottomBar(Model model_) {
-        setBorder(BorderFactory.createLineBorder(Color.BLACK));
-
         slider = new JSlider(JSlider.HORIZONTAL, 0, 0, 0);
         slider.setMajorTickSpacing(1);
         slider.setPaintTicks(true);
