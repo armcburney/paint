@@ -8,6 +8,7 @@ package ca.andrewmcburney.cs349.a2;
 import java.awt.Graphics;
 import java.awt.Insets;
 import java.util.List;
+import java.util.ArrayList;
 import java.util.Arrays;
 import javax.swing.*;
 import java.awt.*;
@@ -33,8 +34,10 @@ class Palette extends JPanel implements Observer {
     private boolean toggled = false;
     private JLabel colorLabel, strokeWidthLabel;
     private JButton button, currentColour;
+    private ArrayList<JButton> buttons;
     private JColorChooser chooser;
     private GridBagConstraints gridBagConstraints;
+    private boolean isSmall = false;
 
     // Hex colours that form the default palette
     private static final String[] colours = {
@@ -49,6 +52,7 @@ class Palette extends JPanel implements Observer {
 
     Palette(Model model_) {
         model = model_;
+        buttons = new ArrayList<JButton>();
 
         // GridBagLayout
         setLayout(new GridBagLayout());
@@ -57,13 +61,13 @@ class Palette extends JPanel implements Observer {
         initColorChooserFrame();
         initColorPalette();
 
-        // View styles
-        setMinimumSize(new Dimension(160, 270));
-        setMaximumSize(new Dimension(160, 270));
-        setBorder(BorderFactory.createLineBorder(Color.BLACK));
+        setViewBig();
     }
 
-    public void initColorChooserFrame() {
+    /**
+     * Init color chooser frame
+     */
+    private void initColorChooserFrame() {
         colorChooserFrame = new JFrame("Color Chooser");
         colorChooserFrame.setMinimumSize(new Dimension(500, 300));
         colorChooserFrame.pack();
@@ -80,8 +84,10 @@ class Palette extends JPanel implements Observer {
             });
     }
 
-
-    public void initColorPalette() {
+    /**
+     * Init color palette
+     */
+    private void initColorPalette() {
         gridBagConstraints.fill = GridBagConstraints.HORIZONTAL;
         gridBagConstraints.gridwidth = 1;
 
@@ -93,10 +99,13 @@ class Palette extends JPanel implements Observer {
             }
         };
 
-        // Instantiate buttons
+        // Instantiate and style buttons
         int row = 0;
         for (int i = 0; i < colours.length; i++) {
-            if (i % 5 == 0) { gridBagConstraints.gridy = ++row; }
+            if (i % 5 == 0) {
+                gridBagConstraints.gridy = ++row;
+            }
+
             button = new JButton("");
             button.setOpaque(true);
             button.setContentAreaFilled(true);
@@ -104,7 +113,10 @@ class Palette extends JPanel implements Observer {
             button.setMaximumSize(new Dimension(32, 32));
             button.setBorderPainted(false);
             button.setBackground(Color.decode(colours[i]));
+            buttons.add(button);
             add(button, gridBagConstraints);
+
+            // Add action listener for color change
             button.addActionListener(actionListener);
         }
 
@@ -132,12 +144,42 @@ class Palette extends JPanel implements Observer {
             });
     }
 
+    /*--------------------------------------------------------------------*
+     * Viewport Options
+     *--------------------------------------------------------------------*/
+
+    // Set view small when the model updates its viewport flag
+    private void setViewSmall() {
+        setMinimumSize(new Dimension(160, 100));
+        setMaximumSize(new Dimension(160, 100));
+
+        for (JButton b : buttons) {
+            b.setVisible(false);
+        }
+    }
+
+    // Set view big when the model updates its viewport flag
+    private void setViewBig() {
+        setMinimumSize(new Dimension(160, 270));
+        setMaximumSize(new Dimension(160, 270));
+
+        for (JButton b : buttons) {
+            b.setVisible(true);
+        }
+    }
+
     @Override
     public void update(Observable observable, Object object) {
-        System.out.println("Palette: update");
-
         Color color = model.getDrawing().getCurrentColor();
         currentColour.setBackground(color);
         colorChooser.setColor(color);
+
+        if (model.isViewSmall() && !isSmall) {
+            isSmall = true;
+            setViewSmall();
+        } else if (!model.isViewSmall() && isSmall) {
+            isSmall = false;
+            setViewBig();
+        }
     }
 }

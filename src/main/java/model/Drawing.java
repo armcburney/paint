@@ -1,3 +1,9 @@
+/**
+ * Drawing.java
+ *
+ * @author: Andrew McBurney
+ */
+
 
 package ca.andrewmcburney.cs349.a2;
 

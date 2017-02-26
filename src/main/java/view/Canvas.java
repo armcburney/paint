@@ -1,3 +1,9 @@
+/**
+ * Canvas.java
+ *
+ * @author: Andrew McBurney
+ */
+
 package ca.andrewmcburney.cs349.a2;
 
 import java.awt.RenderingHints;
@@ -63,7 +69,6 @@ class Canvas extends JPanel implements Observer {
 
     ActionListener timerTask = new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                System.out.println(x + " | " + y);
                 model.updateDrawing((g) -> g.addCoordToStroke(new Coord(x, y)));
             }
         };
@@ -93,7 +98,6 @@ class Canvas extends JPanel implements Observer {
 
     @Override
     public void update(Observable o, Object arg) {
-        System.out.println("Canvas: update");
         repaint();
     }
 }

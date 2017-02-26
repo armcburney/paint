@@ -13,6 +13,7 @@ import java.awt.geom.*;
 import java.awt.Graphics;
 import java.awt.Insets;
 import java.util.List;
+import java.util.ArrayList;
 import java.util.Arrays;
 import javax.swing.*;
 import java.awt.event.ComponentEvent;
@@ -36,17 +37,22 @@ class StrokeWidthPanel extends JPanel implements Observer {
     private Model model;
     private JLabel strokeWidthLabel;
     private JButton button;
+    private ArrayList<JButton> buttons;
     private BufferedImage circle;
     private Graphics2D graphics2D;
+    private GridBagLayout gridbag;
     private GridBagConstraints gridBagConstraints;
     private static final int OFFSET = 3;
     private int row = 0;
+    private boolean isSmall = false;
 
     StrokeWidthPanel(Model model_) {
         model = model_;
+        buttons = new ArrayList<JButton>();
 
         // GridBagLayout
-        setLayout(new GridBagLayout());
+        gridbag = new GridBagLayout();
+        setLayout(gridbag);
         gridBagConstraints = new GridBagConstraints();
         gridBagConstraints.fill = GridBagConstraints.HORIZONTAL;
         gridBagConstraints.gridwidth = 1;
@@ -61,12 +67,16 @@ class StrokeWidthPanel extends JPanel implements Observer {
         setMinimumSize(new Dimension(160, 500));
         setMaximumSize(new Dimension(160, 500));
 
-        // Component listener for resize event
-        addComponentListener(new ComponentAdapter() {
-            public void componentResized(ComponentEvent e) {
-                System.out.println(e);
-            }
-        });
+        setViewBig();
+    }
+
+    /**
+     * Set min, max, and preferred size for a button
+     */
+    private void setButtonSize(JButton b, int x, int y) {
+        b.setMinimumSize(new Dimension(x, y));
+        b.setPreferredSize(new Dimension(x, y));
+        b.setMinimumSize(new Dimension(x, y));
     }
 
     /**
@@ -74,7 +84,6 @@ class StrokeWidthPanel extends JPanel implements Observer {
      */
     private ActionListener actionListener = new ActionListener() {
         public void actionPerformed(ActionEvent e) {
-            System.out.println("Button clicked - updating the stroke width.");
             model.updateDrawing((g) -> g.setStrokeWidth( Integer.parseInt( ((JButton) e.getSource()).getName() )) );
         }
     };
@@ -103,20 +112,55 @@ class StrokeWidthPanel extends JPanel implements Observer {
      * Creates a button
      */
     private JButton createButton(int diameter) {
+        gridBagConstraints.gridy = row++;
+
         button = new JButton("");
         button.setName(String.valueOf(diameter));
-        button.setMinimumSize(new Dimension(160, 35));
-        button.setPreferredSize(new Dimension(160, 35));
-        button.setMinimumSize(new Dimension(160, 35));
         button.addActionListener(actionListener);
+
+        // Set button size and draw a circle in a button
+        setButtonSize(button, 160, 35);
         drawCircle(button, diameter);
-        gridBagConstraints.gridy = ++row;
+
+        buttons.add(button);
 
         return button;
     }
 
+    /*--------------------------------------------------------------------*
+     * Viewport Options
+     *--------------------------------------------------------------------*/
+
+    // Set view small when the model updates its viewport flag
+    private void setViewSmall() {
+        // Render all buttons on same row
+        gridBagConstraints.gridy = 0;
+
+        for (JButton b : buttons) {
+            setButtonSize(b, 32, 32);
+            gridbag.setConstraints(b, gridBagConstraints);
+        }
+    }
+
+    // Set view big when the model updates its viewport flag
+    private void setViewBig() {
+        int i = 0;
+
+        for (JButton b : buttons) {
+            gridBagConstraints.gridy = i++;
+            setButtonSize(b, 160, 35);
+            gridbag.setConstraints(b, gridBagConstraints);
+        }
+    }
+
     @Override
     public void update(Observable observable, Object object) {
-        System.out.println("StrokeWidthPanel: update");
+        if (model.isViewSmall() && !isSmall) {
+            isSmall = true;
+            setViewSmall();
+        } else if (!model.isViewSmall() && isSmall) {
+            isSmall = false;
+            setViewBig();
+        }
     }
 }

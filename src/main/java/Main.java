@@ -143,6 +143,19 @@ public class Main {
         frame.pack();
         frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 
+        // Component listener for resize event
+        frame.addComponentListener(new ComponentAdapter() {
+                public void componentResized(ComponentEvent e) {
+                    boolean viewSmall = model.isViewSmall();
+
+                    if (frame.getBounds().getHeight() <= 475.0 && !viewSmall) {
+                        model.setViewSmall(true);
+                    } else if (frame.getBounds().getHeight() > 475.0 && viewSmall) {
+                        model.setViewSmall(false);
+                    }
+                }
+            });
+
         // Listener for close event
         frame.addWindowListener(new WindowAdapter() {
                 @Override
@@ -156,7 +169,6 @@ public class Main {
                         JOptionPane.QUESTION_MESSAGE,
                         null, options, options[2]
                     );
-                    System.out.println(statusCode);
 
                     // If the statusCode is > 0, dispose of the window and exit
                     if (statusCode > 0) {
@@ -168,7 +180,6 @@ public class Main {
                         e.getWindow().dispose();
                         System.exit(0);
                     }
-                    System.out.println("Closed.");
                 }
             });
 
