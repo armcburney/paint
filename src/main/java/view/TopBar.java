@@ -47,6 +47,7 @@ class TopBar extends JPanel implements Observer {
                 if (returnVal == JFileChooser.APPROVE_OPTION) {
                     File file = jFileChooser.getSelectedFile();
                     System.out.println("Opening: " + file.getName() + ".");
+                    model.loadImage(file.getName());
                 } else {
                     System.out.println("Open command cancelled by user.");
                 }
@@ -58,6 +59,7 @@ class TopBar extends JPanel implements Observer {
                 if (returnVal == JFileChooser.APPROVE_OPTION) {
                     File file = jFileChooser.getSelectedFile();
                     System.out.println("Saving: " + file.getName() + ".");
+                    model.saveImage(file.getName());
                 } else {
                     System.out.println("Save command cancelled by user.");
                 }

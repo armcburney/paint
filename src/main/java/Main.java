@@ -141,7 +141,37 @@ public class Main {
         frame.setSize(800, 600);
         frame.setMinimumSize(new Dimension(400, 300));
         frame.pack();
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+
+        // Listener for close event
+        frame.addWindowListener(new WindowAdapter() {
+                @Override
+                public void windowClosing(WindowEvent e) {
+                    Object[] options = {"Cancel", "No", "Yes"};
+
+                    int statusCode = JOptionPane.showOptionDialog(frame,
+                        "Would you like save your changes before exiting?",
+                        "Unsaved changes",
+                        JOptionPane.YES_NO_CANCEL_OPTION,
+                        JOptionPane.QUESTION_MESSAGE,
+                        null, options, options[2]
+                    );
+                    System.out.println(statusCode);
+
+                    // If the statusCode is > 0, dispose of the window and exit
+                    if (statusCode > 0) {
+                        if (statusCode == 2) {
+                            // Change to let the user specify the file name
+                            model.saveImage("temp.json");
+                        }
+
+                        e.getWindow().dispose();
+                        System.exit(0);
+                    }
+                    System.out.println("Closed.");
+                }
+            });
+
         frame.setVisible(true);
     }
 }

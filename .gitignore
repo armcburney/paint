@@ -1,6 +1,7 @@
 *.class
 .ensime_cache/
 target/
+.DS_Store
 
 # Mobile Tools for Java (J2ME)
 .mtj.tmp/

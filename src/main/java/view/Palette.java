@@ -70,7 +70,7 @@ class Palette extends JPanel implements Observer {
         colorChooserFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         colorChooserFrame.setVisible(false);
 
-        colorChooser = new JColorChooser(Color.decode("#db0000"));
+        colorChooser = new JColorChooser(Color.BLACK);
         colorChooser.setBorder(null);
         colorChooserFrame.getContentPane().add(colorChooser);
 
@@ -119,7 +119,7 @@ class Palette extends JPanel implements Observer {
         currentColour.setOpaque(true);
         currentColour.setContentAreaFilled(true);
         currentColour.setBorderPainted(false);
-        currentColour.setBackground(Color.decode("#db0000"));
+        currentColour.setBackground(Color.BLACK);
         add(currentColour, gridBagConstraints);
 
         // Anonymous controller class

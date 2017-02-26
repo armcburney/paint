@@ -41,6 +41,7 @@ public class Model extends Observable {
 
     // Modifies model's internal state and notifies observers of changes
     public void updateDrawing(DrawingLambda lambda) {
+        isSaved = false;
         lambda.draw(drawing);
 
         setChanged();
@@ -51,20 +52,23 @@ public class Model extends Observable {
      * Images
      *--------------------------------------------------------------------*/
 
-    public void loadImage(String name) {
+    public void loadImage(final String fileName) {
+        System.out.println(fileName);
         try {
-            drawing = jMap.readValue(new File("files/test.json"), Drawing.class);
+            drawing = jMap.readValue(new File("files/" + fileName),
+                                     Drawing.class);
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    public void saveImage() {
+    public void saveImage(final String fileName) {
         System.out.println("Save image.");
         try {
             setChanged();
             notifyObservers();
-            jMap.writeValue(new File("files/test.json"), drawing);
+            jMap.writeValue(new File("files/" + fileName + ".json"), drawing);
+            isSaved = true;
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -76,4 +80,5 @@ public class Model extends Observable {
 
     private ObjectMapper jMap = new ObjectMapper();
     private Drawing drawing;
+    private boolean isSaved = true;
 }

@@ -1,8 +1,12 @@
 package ca.andrewmcburney.cs349.a2;
 
+import java.awt.RenderingHints;
+import java.awt.BasicStroke;
 import java.awt.Graphics;
 import java.awt.geom.Ellipse2D;
 import java.awt.Graphics2D;
+import java.awt.geom.Line2D;
+import java.awt.geom.Point2D;
 import javax.swing.*;
 import java.awt.FlowLayout;
 import java.awt.Dimension;
@@ -43,26 +47,24 @@ class Canvas extends JPanel implements Observer {
                 x = e.getX();
                 y = e.getY();
                 model.updateDrawing((g) -> g.addStroke(new Coord(x, y)));
-
-                // timer.start();
+                timer.start();
             }
 
             public void mouseDragged(MouseEvent e) {
                 x = e.getX();
                 y = e.getY();
-                model.updateDrawing((g) -> g.addCoordToStroke(new Coord(x, y)));
             }
 
             public void mouseReleased(MouseEvent e) {
-                // timer.stop();
+                model.updateDrawing((g) -> g.addCoordToStroke(new Coord(x, y)));
+                timer.stop();
             }
         };
 
     ActionListener timerTask = new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 System.out.println(x + " | " + y);
-                //model.updateDrawing((g) -> g.addCoordToStroke(new Coord(x, y)));
-                // update model if within the constraints here
+                model.updateDrawing((g) -> g.addCoordToStroke(new Coord(x, y)));
             }
         };
 
@@ -70,14 +72,21 @@ class Canvas extends JPanel implements Observer {
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
         Graphics2D graphics2D = (Graphics2D)g;
+        graphics2D.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
+        // Draw all strokes
         for (Stroke s : model.getDrawing().getStrokes()) {
-            graphics2D.setColor(s.getColor());
-            int width = s.getWidth();
+            ArrayList<Coord> coordinates = s.getCoordinates();
 
-            for (Coord c : s.getCoordinates()) {
-                Ellipse2D.Double circle = new Ellipse2D.Double(c.getX(), c.getY(), width, width);
-                graphics2D.fill(circle);
+            graphics2D.setColor(s.getColor());
+            graphics2D.setStroke(new BasicStroke(s.getWidth() - 5, BasicStroke.CAP_ROUND, BasicStroke.JOIN_BEVEL));
+
+            // Draw all coordinates
+            for (int i = 0; i < coordinates.size() -1; i++) {
+                graphics2D.draw(new Line2D.Double(
+                    new Point2D.Double(coordinates.get(i).getX(), coordinates.get(i).getY()),
+                    new Point2D.Double(coordinates.get(i + 1).getX(), coordinates.get(i + 1).getY())
+                ));
             }
         }
     }
