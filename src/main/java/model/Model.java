@@ -44,6 +44,12 @@ public class Model extends Observable {
         return drawing;
     }
 
+    public void clearDrawing() {
+        isSaved = true;
+        drawing.clear();
+        notifyViews();
+    }
+
     // Modifies model's internal state and notifies observers of changes
     public void updateDrawing(DrawingLambda lambda) {
         isSaved = false;

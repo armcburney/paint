@@ -33,7 +33,8 @@ class Canvas extends JPanel implements Observer {
     private int y = 0;
 
     Canvas(Model model_) {
-        timer = new Timer(10, timerTask);
+        // 60 FPS
+        timer = new Timer(17, timerTask);
 
         // Set canvas styles
         setBackground(Color.WHITE);
@@ -97,7 +98,7 @@ class Canvas extends JPanel implements Observer {
     }
 
     @Override
-    public void update(Observable o, Object arg) {
+    public void update(Observable observable, Object object) {
         repaint();
     }
 }

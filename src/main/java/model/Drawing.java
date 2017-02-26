@@ -19,6 +19,12 @@ public class Drawing {
         strokes = new ArrayList<Stroke>();
     }
 
+    public void clear() {
+        currentColour = Color.BLACK;
+        strokeWidth = 15;
+        strokes.clear();
+    }
+
     /*--------------------------------------------------------------------*
      * Colors
      *--------------------------------------------------------------------*/

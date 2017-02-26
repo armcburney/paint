@@ -38,13 +38,15 @@ class BottomBar extends JPanel implements Observer {
 
     @Override
     public void update(Observable observable, Object object) {
-        System.out.println("Bottom Bar: update");
         int numStrokes = model.getDrawing().numStrokes();
-        System.out.println("numStrokes: " + numStrokes);
-        if (numStrokes != 0) {
+
+        if (numStrokes == 0) {
+            slider.setEnabled(false);
+        } else {
             slider.setEnabled(true);
-            slider.setMaximum(numStrokes);
-            slider.setValue(numStrokes);
         }
+
+        slider.setMaximum(numStrokes);
+        slider.setValue(numStrokes);
     }
 }
