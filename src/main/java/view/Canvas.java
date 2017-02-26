@@ -25,7 +25,7 @@ class Canvas extends JPanel implements Observer {
 				public void mouseClicked(MouseEvent e) {
 				}
 		});
-		this.add(this.label);
+		add(this.label);
 	}
 
 	@Override

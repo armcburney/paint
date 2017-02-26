@@ -41,12 +41,23 @@ public class Drawing {
         return strokes.size();
     }
 
+    public void setStrokeWidth(int newStrokeWidth) {
+        strokeWidth = newStrokeWidth;
+    }
+
+    public int getStrokeWidth() {
+        return strokeWidth;
+    }
+
     /*--------------------------------------------------------------------*
      * Data
      *--------------------------------------------------------------------*/
 
     @JsonProperty("name")
     private final String name;
+
+    @JsonProperty("strokeWidth")
+    private int strokeWidth;
 
     @JsonProperty("strokes")
     private ArrayList<Stroke> strokes;

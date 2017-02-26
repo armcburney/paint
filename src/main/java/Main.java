@@ -61,14 +61,12 @@ public class Main {
          *--------------------------------------------------------------------*/
 
         Palette palette = new Palette(model);
+        StrokeWidthPanel strokeWidth = new StrokeWidthPanel(model);
         Canvas canvas = new Canvas(model);
-
-        // Fill up the entire screen horizontally and vertically
-        gridBagConstraints.fill = GridBagConstraints.BOTH;
 
         // Set the middle section to take up the remaining vertical height
         gridBagConstraints.weightx = 0;
-        gridBagConstraints.weighty = 1.0;
+        gridBagConstraints.weighty = 0;
 
         // Second row, first column
         gridBagConstraints.gridx = 0;
@@ -76,21 +74,33 @@ public class Main {
 
         gridBagConstraints.insets = new Insets(0, 0, 0, 0);
         gridBagConstraints.gridwidth = 1;
+        gridBagConstraints.gridheight = 1;
 
         gridBagLayout.setConstraints(palette, gridBagConstraints);
         frame.getContentPane().add(palette);
+
+        gridBagConstraints.weighty = 1.0;
+
+        gridBagConstraints.gridy = 2;
+        gridBagLayout.setConstraints(strokeWidth, gridBagConstraints);
+        frame.getContentPane().add(strokeWidth);
+
+        // Fill up the entire screen horizontally and vertically
+        gridBagConstraints.fill = GridBagConstraints.BOTH;
 
         // Second row, second column
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 1;
 
         gridBagConstraints.gridwidth = 1;
+        gridBagConstraints.gridheight = 2;
 
         gridBagLayout.setConstraints(canvas, gridBagConstraints);
         frame.getContentPane().add(canvas);
 
         // Add views to model as observers
         model.addObserver(palette);
+        model.addObserver(strokeWidth);
         model.addObserver(canvas);
 
         /*--------------------------------------------------------------------*
@@ -109,7 +119,7 @@ public class Main {
 
         // Third row, first column
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 2;
+        gridBagConstraints.gridy = 3;
 
         gridBagConstraints.insets = new Insets(10, 0, 0, 0);
         gridBagConstraints.gridwidth = 2;

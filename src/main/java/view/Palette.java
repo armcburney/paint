@@ -56,6 +56,11 @@ class Palette extends JPanel implements Observer {
 
         initColorChooserFrame();
         initColorPalette();
+
+        // View styles
+        setMinimumSize(new Dimension(160, 270));
+        setMaximumSize(new Dimension(160, 270));
+        setBorder(BorderFactory.createLineBorder(Color.BLACK));
     }
 
     public void initColorChooserFrame() {
@@ -117,11 +122,6 @@ class Palette extends JPanel implements Observer {
         currentColour.setBackground(Color.decode("#db0000"));
         add(currentColour, gridBagConstraints);
 
-        // View styles
-        setMinimumSize(new Dimension(160, 10000));
-        setMaximumSize(new Dimension(160, 10000));
-        setBorder(BorderFactory.createLineBorder(Color.BLACK));
-
         // Anonymous controller class
         currentColour.addActionListener(e -> {
                 if (!colorChooserFrame.isVisible()) {
@@ -135,8 +135,8 @@ class Palette extends JPanel implements Observer {
     @Override
     public void update(Observable observable, Object object) {
         System.out.println("Palette: update");
-        Color color = model.getDrawing().getCurrentColor();
 
+        Color color = model.getDrawing().getCurrentColor();
         currentColour.setBackground(color);
         colorChooser.setColor(color);
     }
