@@ -5,9 +5,17 @@
 
 package ca.andrewmcburney.cs349.a2;
 
+import java.awt.Graphics;
+import java.awt.Insets;
 import java.util.List;
 import java.util.Arrays;
 import javax.swing.*;
+import java.awt.*;
+import java.awt.event.*;
+import javax.swing.*;
+import javax.swing.colorchooser.ColorSelectionModel;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
@@ -16,11 +24,19 @@ import java.awt.Color;
 import java.awt.event.*;
 import java.util.Observable;
 import java.util.Observer;
+import javax.swing.colorchooser.*;
 
 class Palette extends JPanel implements Observer {
+    private JFrame colorChooserFrame;
+    private JColorChooser colorChooser;
     private Model model;
+    private boolean toggled = false;
+    private JLabel colorLabel, strokeWidthLabel;
     private JButton button, currentColour;
+    private JColorChooser chooser;
     private GridBagConstraints gridBagConstraints;
+
+    // Hex colours that form the default palette
     private static final String[] colours = {
         "#999999", "#777777", "#555555", "#333333", "#111111",
         "#db0000", "#c10000", "#a80000", "#8e0000", "#750000",
@@ -37,15 +53,38 @@ class Palette extends JPanel implements Observer {
         // GridBagLayout
         setLayout(new GridBagLayout());
         gridBagConstraints = new GridBagConstraints();
+
+        initColorChooserFrame();
+        initColorPalette();
+    }
+
+    public void initColorChooserFrame() {
+        colorChooserFrame = new JFrame("Color Chooser");
+        colorChooserFrame.setMinimumSize(new Dimension(500, 300));
+        colorChooserFrame.pack();
+        colorChooserFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        colorChooserFrame.setVisible(false);
+
+        colorChooser = new JColorChooser(Color.decode("#db0000"));
+        colorChooser.setBorder(null);
+        colorChooserFrame.getContentPane().add(colorChooser);
+
+        colorChooser.getSelectionModel().addChangeListener(e -> {
+                System.out.println("Color chooser clicked.");
+                model.updateDrawing((g) -> g.setCurrentColor((colorChooser.getColor())));
+            });
+    }
+
+
+    public void initColorPalette() {
         gridBagConstraints.fill = GridBagConstraints.HORIZONTAL;
         gridBagConstraints.gridwidth = 1;
 
         // Action Listener for colour selection
         ActionListener actionListener = new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                model.saveImage();
+                model.updateDrawing((g) -> g.setCurrentColor(((JButton) e.getSource()).getBackground()));
                 System.out.println("Button clicked");
-                System.out.println(e);
             }
         };
 
@@ -69,6 +108,8 @@ class Palette extends JPanel implements Observer {
         gridBagConstraints.gridwidth = 5;
         gridBagConstraints.gridy = ++row;
         gridBagConstraints.gridx = 0;
+        gridBagConstraints.insets = new Insets(10, 0, 0, 0);
+
         currentColour = new JButton("");
         currentColour.setOpaque(true);
         currentColour.setContentAreaFilled(true);
@@ -82,11 +123,21 @@ class Palette extends JPanel implements Observer {
         setBorder(BorderFactory.createLineBorder(Color.BLACK));
 
         // Anonymous controller class
-        currentColour.addActionListener(actionListener);
+        currentColour.addActionListener(e -> {
+                if (!colorChooserFrame.isVisible()) {
+                    colorChooserFrame.setVisible(true);
+                } else {
+                    colorChooserFrame.setVisible(false);
+                }
+            });
     }
 
     @Override
     public void update(Observable observable, Object object) {
         System.out.println("Palette: update");
+        Color color = model.getDrawing().getCurrentColor();
+
+        currentColour.setBackground(color);
+        colorChooser.setColor(color);
     }
 }

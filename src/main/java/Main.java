@@ -8,6 +8,7 @@
 
 package ca.andrewmcburney.cs349.a2;
 
+import java.util.logging.Logger;
 import java.awt.*;
 import javax.swing.*;
 import java.awt.Dimension;
@@ -17,7 +18,11 @@ import java.awt.BorderLayout;
 import java.awt.event.*;
 
 public class Main {
+    private final static Logger log = Logger.getLogger(Main.class.getName());
+
     public static void main(String[] args) {
+        log.info("Initializing model, and views.");
+
         Model model = new Model();
         JFrame frame = new JFrame("Paint Clone");
         GridBagLayout gridBagLayout = new GridBagLayout();

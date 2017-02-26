@@ -1,11 +1,12 @@
 package ca.andrewmcburney.cs349.a2;
 
+import java.awt.Color;
 import java.util.Set;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class Stroke {
-    public Stroke(int id, String color, final Coord startingPoint) {
-        this.id = id;
+    public Stroke(int order, Color color, final Coord startingPoint) {
+        this.id = order;
         this.color = color;
         this.isDisplayed = true;
         this.coordinates.add(startingPoint);
@@ -16,14 +17,14 @@ public class Stroke {
 
     // Class accessors for id, color, and coordinates
     public int getId() { return this.id; }
-    public String getColor() { return this.color; }
+    public Color getColor() { return this.color; }
     public Set<Coord> getCoordinates() { return this.coordinates; }
 
     // Data
     @JsonProperty("id")
     private final int id;
     @JsonProperty("color")
-    private final String color;
+    private final Color color;
     @JsonProperty("isDisplayed")
     private boolean isDisplayed;
     @JsonProperty("coordinates")
