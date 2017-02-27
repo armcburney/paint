@@ -41,8 +41,8 @@ class BottomBar extends JPanel implements Observer {
 
         gridBagConstraints.weightx = 1.0;
         slider = new JSlider(JSlider.HORIZONTAL, 0, 0, 0);
-        //slider.setMajorTickSpacing(1);
-        slider.setPaintTicks(false);
+        slider.setMajorTickSpacing(1000);
+        slider.setPaintTicks(true);
         slider.setPaintLabels(false);
         slider.setEnabled(false);
         slider.setLabelTable(slider.createStandardLabels(1));
@@ -82,7 +82,6 @@ class BottomBar extends JPanel implements Observer {
         slider.addChangeListener(new ChangeListener() {
                 public void stateChanged(ChangeEvent event) {
                     double value = slider.getValue() / (double) slider.getMaximum();
-                    //System.out.println(value);
                     model.updateDrawing((g) -> g.partition(value), "partition");
                 }
             });
@@ -106,9 +105,7 @@ class BottomBar extends JPanel implements Observer {
             end.setEnabled(true);
         }
 
-        //System.out.println(numStrokes);
-
-        if (object != "partition") {
+        if (object == "head") {
             slider.setMaximum(numStrokes * 1000);
             slider.setValue(numStrokes * 1000);
         }

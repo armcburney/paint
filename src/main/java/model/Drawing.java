@@ -73,7 +73,7 @@ public class Drawing implements java.io.Serializable  {
             numStrokes = leftCoord.get(leftCoord.size() - 1).getNum() + 1;
         }
 
-        System.out.println(strokeWidth);
+        System.out.println("addCoord");
         Coord point = new Coord(x, y, numStrokes, head, tail, currentColour, strokeWidth);
         leftCoord.add(point);
         rightCoord.clear();
@@ -87,15 +87,11 @@ public class Drawing implements java.io.Serializable  {
         int splitIndex = (int) Math.floor(temp.size() * value);
 
         // Partition list left of the slider
-        if (splitIndex != 0) {
-            leftCoord  = new ArrayList<Coord>(temp.subList(0, splitIndex));
-        } else {
-            leftCoord = new ArrayList<Coord>();
-        }
+        leftCoord  = new ArrayList<Coord>(temp.subList(0, splitIndex));
 
         // Partition list right of the slider
-        if (!(splitIndex >= temp.size() - 1)) {
-            rightCoord = new ArrayList<Coord>(temp.subList(splitIndex, temp.size() - 1));
+        if (temp.size() != 0) {
+            rightCoord = new ArrayList<Coord>(temp.subList(splitIndex, temp.size()));
         } else {
             rightCoord = new ArrayList<Coord>();
         }
