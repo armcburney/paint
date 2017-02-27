@@ -54,14 +54,6 @@ public class Drawing implements java.io.Serializable  {
         return rightCoord;
     }
 
-    public int numCoords() {
-        return leftCoord.size() + rightCoord.size();
-    }
-
-    public void clearRightCoords() {
-        rightCoord.clear();
-    }
-
     public int numStrokes() {
         return numStrokes;
     }
@@ -81,6 +73,7 @@ public class Drawing implements java.io.Serializable  {
             numStrokes = leftCoord.get(leftCoord.size() - 1).getNum() + 1;
         }
 
+        System.out.println(strokeWidth);
         Coord point = new Coord(x, y, numStrokes, head, tail, currentColour, strokeWidth);
         leftCoord.add(point);
         rightCoord.clear();

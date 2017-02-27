@@ -89,11 +89,8 @@ class Canvas extends JPanel implements Observer {
             Coord currentCoord = coordinates.get(i);
             Coord nextCoord = coordinates.get(i + 1);
 
-            // If new stroke, change the color and width
-            if (currentCoord.isHead()) {
-                graphics2D.setColor(currentCoord.getColor());
-                graphics2D.setStroke(new BasicStroke(currentCoord.getWidth() - 5, BasicStroke.CAP_ROUND, BasicStroke.JOIN_BEVEL));
-            }
+            graphics2D.setColor(currentCoord.getColor());
+            graphics2D.setStroke(new BasicStroke(currentCoord.getWidth() - 5, BasicStroke.CAP_ROUND, BasicStroke.JOIN_BEVEL));
 
             if (!nextCoord.isTail()) {
                 // Draw the link between two coordinates

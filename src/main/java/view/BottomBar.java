@@ -106,7 +106,7 @@ class BottomBar extends JPanel implements Observer {
             end.setEnabled(true);
         }
 
-        System.out.println(numStrokes);
+        //System.out.println(numStrokes);
 
         if (object != "partition") {
             slider.setMaximum(numStrokes * 1000);

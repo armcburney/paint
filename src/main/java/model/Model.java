@@ -75,6 +75,9 @@ public class Model extends Observable {
         } catch(IOException i) {
             i.printStackTrace();
             return;
+        } catch(ClassNotFoundException c) {
+            c.printStackTrace();
+            return;
         }
 
         notifyViews("loaded");
@@ -97,7 +100,6 @@ public class Model extends Observable {
         } catch(IOException i) {
             i.printStackTrace();
         }
-
         System.out.println("Save image.");
         /*
         try {
