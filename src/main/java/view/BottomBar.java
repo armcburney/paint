@@ -10,6 +10,7 @@ import java.io.File;
 import javax.swing.*;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.awt.GridLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.*;
@@ -21,6 +22,8 @@ class BottomBar extends JPanel implements Observer {
     private GridBagLayout gridbag;
     private GridBagConstraints gridBagConstraints;
     private JButton start, end;
+    private ButtonGroup buttonGroup;
+    private JPanel panel;
     private JRadioButton playForward, playBackward;
     private JSlider slider;
     private Model model;
@@ -34,12 +37,6 @@ class BottomBar extends JPanel implements Observer {
         setLayout(gridbag);
         setBackground(Color.decode("#dddddd"));
         gridBagConstraints.fill = GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.weightx = 0.0;
-
-        playForward  = new JRadioButton("Forward");
-        playBackward = new JRadioButton("Backward");
-        add(playForward, gridBagConstraints);
-        add(playBackward, gridBagConstraints);
 
         gridBagConstraints.weightx = 1.0;
         slider = new JSlider(JSlider.HORIZONTAL, 0, 0, 0);
@@ -51,10 +48,30 @@ class BottomBar extends JPanel implements Observer {
         add(slider, gridBagConstraints);
 
         gridBagConstraints.weightx = 0.0;
+
+        // Add two radio buttons to a button group
+        playForward  = new JRadioButton("Forward");
+        playBackward = new JRadioButton("Backward");
+        playForward.setSelected(true);
+        buttonGroup = new ButtonGroup();
+        buttonGroup.add(playForward);
+        buttonGroup.add(playBackward);
+
+        panel = new JPanel(new GridLayout(0, 1));
+        panel.setBackground(Color.decode("#dddddd"));
+        panel.add(playForward);
+        panel.add(playBackward);
+        add(panel, gridBagConstraints);
+
+        // Buttons for start, end as per specs
         start = new JButton("Start");
         end = new JButton("End");
-        add(start, gridBagConstraints);
-        add(end, gridBagConstraints);
+
+        panel = new JPanel(new GridLayout(0, 1));
+        panel.setBackground(Color.decode("#dddddd"));
+        panel.add(start);
+        panel.add(end);
+        add(panel, gridBagConstraints);
     }
 
     @Override
