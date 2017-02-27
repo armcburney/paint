@@ -49,11 +49,12 @@ class Canvas extends JPanel implements Observer {
         addMouseMotionListener(mouseAdapter);
     }
 
+    // MouseAdapter for canvas
     MouseAdapter mouseAdapter = new MouseAdapter() {
             public void mousePressed(MouseEvent e) {
                 x = e.getX();
                 y = e.getY();
-                model.updateDrawing((g) -> g.addStroke(new Coord(x, y)));
+                model.updateDrawing((g) -> g.addCoord(x, y, true, false));
                 timer.start();
             }
 
@@ -63,14 +64,15 @@ class Canvas extends JPanel implements Observer {
             }
 
             public void mouseReleased(MouseEvent e) {
-                model.updateDrawing((g) -> g.addCoordToStroke(new Coord(x, y)));
+                model.updateDrawing((g) -> g.addCoord(x, y, false, true));
                 timer.stop();
             }
         };
 
+    // Add a coordinate when timer is running
     ActionListener timerTask = new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                model.updateDrawing((g) -> g.addCoordToStroke(new Coord(x, y)));
+                model.updateDrawing((g) -> g.addCoord(x, y, false, false));
             }
         };
 
@@ -80,19 +82,27 @@ class Canvas extends JPanel implements Observer {
         Graphics2D graphics2D = (Graphics2D)g;
         graphics2D.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
-        // Draw all strokes
-        for (Stroke s : model.getDrawing().getStrokes()) {
-            ArrayList<Coord> coordinates = s.getCoordinates();
+        ArrayList<Coord> coordinates = model.getDrawing().getLeftCoords();
 
-            graphics2D.setColor(s.getColor());
-            graphics2D.setStroke(new BasicStroke(s.getWidth() - 5, BasicStroke.CAP_ROUND, BasicStroke.JOIN_BEVEL));
+        // Draw all coordinates to the left of the slider
+        for (int i = 0; i < coordinates.size() -1; i++) {
+            Coord currentCoord = coordinates.get(i);
+            Coord nextCoord = coordinates.get(i + 1);
 
-            // Draw all coordinates
-            for (int i = 0; i < coordinates.size() -1; i++) {
+            // If new stroke, change the color and width
+            if (currentCoord.isHead()) {
+                graphics2D.setColor(currentCoord.getColor());
+                graphics2D.setStroke(new BasicStroke(currentCoord.getWidth() - 5, BasicStroke.CAP_ROUND, BasicStroke.JOIN_BEVEL));
+            }
+
+            if (!nextCoord.isTail()) {
+                // Draw the link between two coordinates
                 graphics2D.draw(new Line2D.Double(
-                    new Point2D.Double(coordinates.get(i).getX(), coordinates.get(i).getY()),
-                    new Point2D.Double(coordinates.get(i + 1).getX(), coordinates.get(i + 1).getY())
+                    new Point2D.Double(currentCoord.getX(), currentCoord.getY()),
+                    new Point2D.Double(nextCoord.getX(), nextCoord.getY())
                 ));
+            } else {
+                i++;
             }
         }
     }

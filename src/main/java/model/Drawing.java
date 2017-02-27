@@ -4,7 +4,6 @@
  * @author: Andrew McBurney
  */
 
-
 package ca.andrewmcburney.cs349.a2;
 
 import java.awt.Color;
@@ -16,13 +15,17 @@ public class Drawing {
         currentColour = Color.BLACK;
         name = name_;
         strokeWidth = 15;
-        strokes = new ArrayList<Stroke>();
+        numStrokes = 0;
+        leftCoord = new ArrayList<Coord>();
+        rightCoord = new ArrayList<Coord>();
     }
 
     public void clear() {
         currentColour = Color.BLACK;
         strokeWidth = 15;
-        strokes.clear();
+        numStrokes = 0;
+        leftCoord.clear();
+        rightCoord.clear();
     }
 
     /*--------------------------------------------------------------------*
@@ -41,18 +44,20 @@ public class Drawing {
      * Strokes
      *--------------------------------------------------------------------*/
 
-    public void addStroke(Coord point) {
-        Stroke stroke = new Stroke(numStrokes() + 1, currentColour,
-                                   strokeWidth, point);
-        strokes.add(stroke);
+    public ArrayList<Coord> getLeftCoords() {
+        return leftCoord;
     }
 
-    public ArrayList<Stroke> getStrokes() {
-        return strokes;
+    public ArrayList<Coord> getRightCoords() {
+        return rightCoord;
+    }
+
+    public void clearRightCoords() {
+        rightCoord.clear();
     }
 
     public int numStrokes() {
-        return strokes.size();
+        return numStrokes;
     }
 
     public void setStrokeWidth(int newStrokeWidth) {
@@ -63,8 +68,12 @@ public class Drawing {
         return strokeWidth;
     }
 
-    public void addCoordToStroke(Coord point) {
-        strokes.get(strokes.size() - 1).addCoordinate(point);
+    public void addCoord(int x, int y, boolean head, boolean tail) {
+        if (head) { numStrokes ++; }
+
+        Coord point = new Coord(x, y, head, tail, currentColour, strokeWidth);
+        leftCoord.add(point);
+        rightCoord.clear();
     }
 
     /*--------------------------------------------------------------------*
@@ -74,11 +83,17 @@ public class Drawing {
     @JsonProperty("name")
     private final String name;
 
+    @JsonProperty("numStrokes")
+    private int numStrokes;
+
     @JsonProperty("strokeWidth")
     private int strokeWidth;
 
-    @JsonProperty("strokes")
-    private ArrayList<Stroke> strokes;
+    @JsonProperty("leftCoord")
+    private ArrayList<Coord> leftCoord;
+
+    @JsonProperty("rightCoord")
+    private ArrayList<Coord> rightCoord;
 
     @JsonProperty("currentColour")
     private Color currentColour;
