@@ -6,12 +6,13 @@
 
 package ca.andrewmcburney.cs349.a2;
 
+import java.io.*;
 import java.awt.Color;
 import java.util.List;
 import java.util.ArrayList;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class Drawing {
+public class Drawing implements java.io.Serializable  {
     public Drawing(final String name_) {
         currentColour = Color.BLACK;
         name = name_;

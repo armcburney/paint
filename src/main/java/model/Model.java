@@ -7,6 +7,7 @@
 package ca.andrewmcburney.cs349.a2;
 
 // Java IO
+import java.io.*;
 import java.io.File;
 import java.io.IOException;
 
@@ -64,23 +65,48 @@ public class Model extends Observable {
 
     public void loadImage(final String fileName) {
         System.out.println(fileName);
+
         try {
-            drawing = jMap.readValue(new File("files/" + fileName),
-                                     Drawing.class);
+            fileInput = new FileInputStream(fileName);
+            objectInput = new ObjectInputStream(fileInput);
+            drawing = (Drawing) objectInput.readObject();
+            objectInput.close();
+            fileInput.close();
+        } catch(IOException i) {
+            i.printStackTrace();
+            return;
+        }
+
+        notifyViews("loaded");
+        /*
+        try {
+            drawing = jMap.readValue(new File("files/" + fileName), Drawing.class);
         } catch (IOException e) {
             e.printStackTrace();
-        }
+        }*/
     }
 
     public void saveImage(final String fileName) {
+        try {
+            fileOutput = new FileOutputStream(fileName + ".paint");
+            objectOutput = new ObjectOutputStream(fileOutput);
+            objectOutput.writeObject(drawing);
+            objectOutput.close();
+            fileOutput.close();
+            System.out.printf("Serialized Drawing.");
+        } catch(IOException i) {
+            i.printStackTrace();
+        }
+
         System.out.println("Save image.");
+        /*
         try {
             notifyViews("");
             jMap.writeValue(new File("files/" + fileName + ".json"), drawing);
             isSaved = true;
         } catch (IOException e) {
             e.printStackTrace();
-        }
+        }*/
     }
 
     /*--------------------------------------------------------------------*
@@ -100,7 +126,16 @@ public class Model extends Observable {
      * Data
      *--------------------------------------------------------------------*/
 
+    // Jackson
     private ObjectMapper jMap = new ObjectMapper();
+
+    // Java Serializer
+    private FileInputStream fileInput;
+    private ObjectInputStream objectInput;
+    private FileOutputStream fileOutput;
+    private ObjectOutputStream objectOutput;
+
+    // Other data
     private Drawing drawing;
     private boolean isSaved = true;
     private boolean isViewSmall = false;

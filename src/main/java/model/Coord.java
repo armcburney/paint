@@ -6,10 +6,11 @@
 
 package ca.andrewmcburney.cs349.a2;
 
+import java.io.*;
 import java.awt.Color;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class Coord {
+public class Coord implements java.io.Serializable {
     public Coord(final int x_, final int y_, int sNum_, final boolean head_,
                  final boolean tail_, final Color color_, final int width_) {
         color = color_;
