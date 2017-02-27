@@ -85,6 +85,28 @@ class BottomBar extends JPanel implements Observer {
                     model.updateDrawing((g) -> g.partition(value), "partition");
                 }
             });
+
+        // Anonymous controller class
+        playForward.addActionListener(e -> {
+                System.out.println("Play forward");
+                model.updateDrawing((g) -> g.play(true), "play");
+            });
+
+        // Anonymous controller class
+        playBackward.addActionListener(e -> {
+                model.updateDrawing((g) -> g.play(false), "play");
+            });
+
+        // Anonymous controller class
+        start.addActionListener(e -> {
+                // timer, iterate through current value to max value of bottom bar
+                model.updateDrawing((g) -> g.sliderStart(), "sliderStart");
+            });
+
+        // Anonymous controller class
+        end.addActionListener(e -> {
+                model.updateDrawing((g) -> g.sliderEnd(), "sliderEnd");
+            });
     }
 
     @Override
@@ -107,6 +129,10 @@ class BottomBar extends JPanel implements Observer {
 
         if (object == "head") {
             slider.setMaximum(numStrokes * 1000);
+            slider.setValue(numStrokes * 1000);
+        } else if (object == "sliderStart") {
+            slider.setValue(0);
+        } else if (object == "sliderEnd") {
             slider.setValue(numStrokes * 1000);
         }
     }

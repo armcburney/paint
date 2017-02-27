@@ -5,4 +5,3 @@ A simple paint clone made with Java, Swing and Scala. Saves images in JSON forma
 - prompt user for saving when opening new file
 - Save, load doodles (serialization to json, binary)
 - Resizing properly
-- fix bug in JSlider logic

@@ -14,6 +14,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class Drawing implements java.io.Serializable  {
     public Drawing(final String name_) {
+        playForward = true;
         currentColour = Color.BLACK;
         name = name_;
         strokeWidth = 15;
@@ -23,6 +24,7 @@ public class Drawing implements java.io.Serializable  {
     }
 
     public void clear() {
+        playForward = true;
         currentColour = Color.BLACK;
         strokeWidth = 15;
         numStrokes = 0;
@@ -73,10 +75,27 @@ public class Drawing implements java.io.Serializable  {
             numStrokes = leftCoord.get(leftCoord.size() - 1).getNum() + 1;
         }
 
-        System.out.println("addCoord");
         Coord point = new Coord(x, y, numStrokes, head, tail, currentColour, strokeWidth);
         leftCoord.add(point);
         rightCoord.clear();
+    }
+
+    public void sliderStart() {
+        List<Coord> temp = new ArrayList<Coord>();
+        temp.addAll(leftCoord);
+        temp.addAll(rightCoord);
+
+        rightCoord = new ArrayList<Coord>(temp);
+        leftCoord  = new ArrayList<Coord>();
+    }
+
+    public void sliderEnd() {
+        List<Coord> temp = new ArrayList<Coord>();
+        temp.addAll(leftCoord);
+        temp.addAll(rightCoord);
+
+        leftCoord  = new ArrayList<Coord>(temp);
+        rightCoord = new ArrayList<Coord>();
     }
 
     public void partition(double value) {
@@ -98,8 +117,23 @@ public class Drawing implements java.io.Serializable  {
     }
 
     /*--------------------------------------------------------------------*
+     * Play direction
+     *--------------------------------------------------------------------*/
+
+    public boolean isPlayForward() {
+        return playForward;
+    }
+
+    public void play(boolean playDir) {
+        playForward = playDir;
+    }
+
+    /*--------------------------------------------------------------------*
      * Data
      *--------------------------------------------------------------------*/
+
+    @JsonProperty("playDirection")
+    private boolean playForward;
 
     @JsonProperty("name")
     private final String name;
