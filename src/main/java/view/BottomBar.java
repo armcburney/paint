@@ -23,18 +23,16 @@ import javax.swing.Timer;
 class BottomBar extends JPanel implements Observer {
     private GridBagLayout gridbag;
     private GridBagConstraints gridBagConstraints;
-    private JButton start, end;
-    private ButtonGroup buttonGroup;
+    private JButton start, end, playForward, playBackward;
     private JPanel panel;
-    private JRadioButton playForward, playBackward;
     private JSlider slider;
     private Model model;
     private Timer forwardTimer, backwardTimer;
 
     BottomBar(Model model_) {
         model = model_;
-        forwardTimer  = new Timer(1, timerTaskForward);
-        backwardTimer = new Timer(1, timerTaskBackward);
+        forwardTimer  = new Timer(17, timerTaskForward);
+        backwardTimer = new Timer(17, timerTaskBackward);
 
         // GridBagLayout
         gridbag = new GridBagLayout();
@@ -55,14 +53,10 @@ class BottomBar extends JPanel implements Observer {
         gridBagConstraints.weightx = 0.0;
 
         // Add two radio buttons to a button group
-        playForward  = new JRadioButton("Forward");
-        playBackward = new JRadioButton("Backward");
+        playForward  = new JButton("Play Forward");
+        playBackward = new JButton("Play Backward");
         playForward.setEnabled(false);
         playBackward.setEnabled(false);
-        playForward.setSelected(true);
-        buttonGroup = new ButtonGroup();
-        buttonGroup.add(playForward);
-        buttonGroup.add(playBackward);
 
         panel = new JPanel(new GridLayout(0, 1));
         panel.setBackground(Color.decode("#dddddd"));
