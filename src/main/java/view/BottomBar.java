@@ -8,6 +8,7 @@ package ca.andrewmcburney.cs349.a2;
 
 import java.io.File;
 import javax.swing.*;
+import javax.swing.event.*;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.GridLayout;
@@ -40,9 +41,9 @@ class BottomBar extends JPanel implements Observer {
 
         gridBagConstraints.weightx = 1.0;
         slider = new JSlider(JSlider.HORIZONTAL, 0, 0, 0);
-        slider.setMajorTickSpacing(1);
-        slider.setPaintTicks(true);
-        slider.setPaintLabels(true);
+        //slider.setMajorTickSpacing(1);
+        slider.setPaintTicks(false);
+        slider.setPaintLabels(false);
         slider.setEnabled(false);
         slider.setLabelTable(slider.createStandardLabels(1));
         add(slider, gridBagConstraints);
@@ -76,6 +77,15 @@ class BottomBar extends JPanel implements Observer {
         panel.add(start);
         panel.add(end);
         add(panel, gridBagConstraints);
+
+        // Event change listener
+        slider.addChangeListener(new ChangeListener() {
+                public void stateChanged(ChangeEvent event) {
+                    double value = slider.getValue() / (double) slider.getMaximum();
+                    //System.out.println(value);
+                    model.updateDrawing((g) -> g.partition(value), "partition");
+                }
+            });
     }
 
     @Override
@@ -96,7 +106,11 @@ class BottomBar extends JPanel implements Observer {
             end.setEnabled(true);
         }
 
-        slider.setMaximum(numStrokes);
-        slider.setValue(numStrokes);
+        System.out.println(numStrokes);
+
+        if (object != "partition") {
+            slider.setMaximum(numStrokes * 1000);
+            slider.setValue(numStrokes * 1000);
+        }
     }
 }

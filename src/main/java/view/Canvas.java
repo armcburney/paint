@@ -54,7 +54,7 @@ class Canvas extends JPanel implements Observer {
             public void mousePressed(MouseEvent e) {
                 x = e.getX();
                 y = e.getY();
-                model.updateDrawing((g) -> g.addCoord(x, y, true, false));
+                model.updateDrawing((g) -> g.addCoord(x, y, true, false), "head");
                 timer.start();
             }
 
@@ -64,7 +64,7 @@ class Canvas extends JPanel implements Observer {
             }
 
             public void mouseReleased(MouseEvent e) {
-                model.updateDrawing((g) -> g.addCoord(x, y, false, true));
+                model.updateDrawing((g) -> g.addCoord(x, y, false, true), "tail");
                 timer.stop();
             }
         };
@@ -72,7 +72,7 @@ class Canvas extends JPanel implements Observer {
     // Add a coordinate when timer is running
     ActionListener timerTask = new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                model.updateDrawing((g) -> g.addCoord(x, y, false, false));
+                model.updateDrawing((g) -> g.addCoord(x, y, false, false), "body");
             }
         };
 

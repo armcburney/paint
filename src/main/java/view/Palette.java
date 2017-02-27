@@ -80,7 +80,7 @@ class Palette extends JPanel implements Observer {
 
         colorChooser.getSelectionModel().addChangeListener(e -> {
                 System.out.println("Color chooser clicked.");
-                model.updateDrawing((g) -> g.setCurrentColor((colorChooser.getColor())));
+                model.updateDrawing((g) -> g.setCurrentColor((colorChooser.getColor())), "color");
             });
     }
 
@@ -94,8 +94,7 @@ class Palette extends JPanel implements Observer {
         // Action Listener for colour selection
         ActionListener actionListener = new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                model.updateDrawing((g) -> g.setCurrentColor(((JButton) e.getSource()).getBackground()));
-                System.out.println("Button clicked");
+                model.updateDrawing((g) -> g.setCurrentColor(((JButton) e.getSource()).getBackground()), "init");
             }
         };
 

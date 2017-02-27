@@ -7,6 +7,7 @@
 package ca.andrewmcburney.cs349.a2;
 
 import java.awt.Color;
+import java.util.List;
 import java.util.ArrayList;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -52,6 +53,10 @@ public class Drawing {
         return rightCoord;
     }
 
+    public int numCoords() {
+        return leftCoord.size() + rightCoord.size();
+    }
+
     public void clearRightCoords() {
         rightCoord.clear();
     }
@@ -69,11 +74,37 @@ public class Drawing {
     }
 
     public void addCoord(int x, int y, boolean head, boolean tail) {
-        if (head) { numStrokes ++; }
+        if (leftCoord.size() == 0) {
+            numStrokes = 1;
+        } else if (head) {
+            numStrokes = leftCoord.get(leftCoord.size() - 1).getNum() + 1;
+        }
 
-        Coord point = new Coord(x, y, head, tail, currentColour, strokeWidth);
+        Coord point = new Coord(x, y, numStrokes, head, tail, currentColour, strokeWidth);
         leftCoord.add(point);
         rightCoord.clear();
+    }
+
+    public void partition(double value) {
+        List<Coord> temp = new ArrayList<Coord>();
+        temp.addAll(leftCoord);
+        temp.addAll(rightCoord);
+
+        int splitIndex = (int) Math.floor(temp.size() * value);
+
+        // Partition list left of the slider
+        if (splitIndex != 0) {
+            leftCoord  = new ArrayList<Coord>(temp.subList(0, splitIndex));
+        } else {
+            leftCoord = new ArrayList<Coord>();
+        }
+
+        // Partition list right of the slider
+        if (!(splitIndex >= temp.size() - 1)) {
+            rightCoord = new ArrayList<Coord>(temp.subList(splitIndex, temp.size() - 1));
+        } else {
+            rightCoord = new ArrayList<Coord>();
+        }
     }
 
     /*--------------------------------------------------------------------*

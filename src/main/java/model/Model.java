@@ -31,9 +31,10 @@ public class Model extends Observable {
         drawing = new Drawing("temp");
     }
 
-    private void notifyViews() {
+    private void notifyViews(String value) {
+        Object object = value;
         setChanged();
-        notifyObservers();
+        notifyObservers(object);
     }
 
     /*--------------------------------------------------------------------*
@@ -47,14 +48,14 @@ public class Model extends Observable {
     public void clearDrawing() {
         isSaved = true;
         drawing.clear();
-        notifyViews();
+        notifyViews("");
     }
 
     // Modifies model's internal state and notifies observers of changes
-    public void updateDrawing(DrawingLambda lambda) {
+    public void updateDrawing(DrawingLambda lambda, String value) {
         isSaved = false;
         lambda.draw(drawing);
-        notifyViews();
+        notifyViews(value);
     }
 
     /*--------------------------------------------------------------------*
@@ -74,7 +75,7 @@ public class Model extends Observable {
     public void saveImage(final String fileName) {
         System.out.println("Save image.");
         try {
-            notifyViews();
+            notifyViews("");
             jMap.writeValue(new File("files/" + fileName + ".json"), drawing);
             isSaved = true;
         } catch (IOException e) {
@@ -88,7 +89,7 @@ public class Model extends Observable {
 
     public void setViewSmall(boolean viewValue) {
         isViewSmall = viewValue;
-        notifyViews();
+        notifyViews("");
     }
 
     public boolean isViewSmall() {

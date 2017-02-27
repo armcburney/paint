@@ -84,7 +84,7 @@ class StrokeWidthPanel extends JPanel implements Observer {
      */
     private ActionListener actionListener = new ActionListener() {
         public void actionPerformed(ActionEvent e) {
-            model.updateDrawing((g) -> g.setStrokeWidth( Integer.parseInt( ((JButton) e.getSource()).getName() )) );
+            model.updateDrawing((g) -> g.setStrokeWidth( Integer.parseInt( ((JButton) e.getSource()).getName() )), "click" );
         }
     };
 
