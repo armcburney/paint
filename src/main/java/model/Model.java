@@ -81,12 +81,6 @@ public class Model extends Observable {
         }
 
         notifyViews("loaded");
-        /*
-        try {
-            drawing = jMap.readValue(new File("files/" + fileName), Drawing.class);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }*/
     }
 
     public void saveImage(final String fileName) {
@@ -101,14 +95,7 @@ public class Model extends Observable {
             i.printStackTrace();
         }
         System.out.println("Save image.");
-        /*
-        try {
-            notifyViews("");
-            jMap.writeValue(new File("files/" + fileName + ".json"), drawing);
-            isSaved = true;
-        } catch (IOException e) {
-            e.printStackTrace();
-        }*/
+        isSaved = true;
     }
 
     /*--------------------------------------------------------------------*
@@ -127,6 +114,10 @@ public class Model extends Observable {
     /*--------------------------------------------------------------------*
      * Data
      *--------------------------------------------------------------------*/
+
+    public boolean isSaved() {
+        return isSaved;
+    }
 
     // Jackson
     private ObjectMapper jMap = new ObjectMapper();

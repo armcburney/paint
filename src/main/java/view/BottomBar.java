@@ -110,7 +110,7 @@ class BottomBar extends JPanel implements Observer {
     // Timer task listeners
     ActionListener timerTaskForward = new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                slider.setValue(slider.getValue() + 10);
+                slider.setValue(slider.getValue() + 20);
 
                 if (slider.getValue() >= slider.getMaximum()) {
                     ((Timer)e.getSource()).stop();
@@ -119,7 +119,7 @@ class BottomBar extends JPanel implements Observer {
         };
     ActionListener timerTaskBackward = new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                slider.setValue(slider.getValue() - 10);
+                slider.setValue(slider.getValue() - 20);
 
                 if (slider.getValue() <= 0) {
                     ((Timer)e.getSource()).stop();

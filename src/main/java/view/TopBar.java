@@ -68,29 +68,53 @@ class TopBar extends JPanel implements Observer {
         // Anonymous controller classes
         newFile.addActionListener(new ActionListener() {
                 public void actionPerformed(ActionEvent e) {
-                    Object[] options = {"Cancel", "No", "Yes"};
+                    if (!model.isSaved()) {
+                        Object[] options = {"Cancel", "No", "Yes"};
 
-                    int statusCode = JOptionPane.showOptionDialog(
-                        (JFrame) SwingUtilities.getRoot(TopBar.this),
-                        "Would you like save your changes?",
-                        "Unsaved changes",
-                        JOptionPane.YES_NO_CANCEL_OPTION,
-                        JOptionPane.QUESTION_MESSAGE,
-                        null, options, options[2]
-                    );
+                        int statusCode = JOptionPane.showOptionDialog(
+                            (JFrame) SwingUtilities.getRoot(TopBar.this),
+                            "Would you like save your changes as temp.paint?",
+                            "Unsaved changes",
+                            JOptionPane.YES_NO_CANCEL_OPTION,
+                            JOptionPane.QUESTION_MESSAGE,
+                            null, options, options[2]
+                        );
 
-                    // If the statusCode is > 0, create a new image
-                    if (statusCode > 0) {
-                        if (statusCode == 2) {
-                            // Change to let the user specify the file name
-                            model.saveImage("temp.json");
+                        // If the statusCode is > 0, create a new image
+                        if (statusCode > 0) {
+                            if (statusCode == 2) {
+                                // Change to let the user specify the file name
+                                model.saveImage("temp");
+                            }
+                            model.clearDrawing();
                         }
+                    } else {
                         model.clearDrawing();
                     }
                 }
             });
         openFile.addActionListener(new ActionListener() {
                 public void actionPerformed(ActionEvent e) {
+                    if (!model.isSaved()) {
+                        Object[] options = {"Cancel", "No", "Yes"};
+
+                        int statusCode = JOptionPane.showOptionDialog(
+                            (JFrame) SwingUtilities.getRoot(TopBar.this),
+                            "Would you like save your changes as temp.paint?",
+                            "Unsaved changes",
+                            JOptionPane.YES_NO_CANCEL_OPTION,
+                            JOptionPane.QUESTION_MESSAGE,
+                            null, options, options[2]
+                        );
+
+                        // If the statusCode is > 0, create a new image
+                        if (statusCode > 0) {
+                            if (statusCode == 2) {
+                                // Change to let the user specify the file name
+                                model.saveImage("temp");
+                            }
+                        }
+                    }
                     int returnVal = jFileChooser.showOpenDialog(TopBar.this);
 
                     if (returnVal == JFileChooser.APPROVE_OPTION) {
@@ -98,7 +122,7 @@ class TopBar extends JPanel implements Observer {
                         System.out.println("Opening: " + file.getName() + ".");
                         model.loadImage(file.getName());
                     } else {
-                        System.out.println("Open command cancelled by user.");
+                        System.out.println("Open cancelled.");
                     }
                 }
             });

@@ -148,9 +148,9 @@ public class Main {
                 public void componentResized(ComponentEvent e) {
                     boolean viewSmall = model.isViewSmall();
 
-                    if (frame.getBounds().getHeight() <= 475.0 && !viewSmall) {
+                    if (frame.getBounds().getHeight() <= 500.0 && !viewSmall) {
                         model.setViewSmall(true);
-                    } else if (frame.getBounds().getHeight() > 475.0 && viewSmall) {
+                    } else if (frame.getBounds().getHeight() > 500.0 && viewSmall) {
                         model.setViewSmall(false);
                     }
                 }
@@ -160,23 +160,28 @@ public class Main {
         frame.addWindowListener(new WindowAdapter() {
                 @Override
                 public void windowClosing(WindowEvent e) {
-                    Object[] options = {"Cancel", "No", "Yes"};
+                    if (!model.isSaved()) {
+                        Object[] options = {"Cancel", "No", "Yes"};
 
-                    int statusCode = JOptionPane.showOptionDialog(frame,
-                        "Would you like save your changes before exiting?",
-                        "Unsaved changes",
-                        JOptionPane.YES_NO_CANCEL_OPTION,
-                        JOptionPane.QUESTION_MESSAGE,
-                        null, options, options[2]
-                    );
+                        int statusCode = JOptionPane.showOptionDialog(frame,
+                            "Would you like save your changes as temp.paint before exiting?",
+                            "Unsaved changes",
+                            JOptionPane.YES_NO_CANCEL_OPTION,
+                            JOptionPane.QUESTION_MESSAGE,
+                            null, options, options[2]
+                        );
 
-                    // If the statusCode is > 0, dispose of the window and exit
-                    if (statusCode > 0) {
-                        if (statusCode == 2) {
-                            // Change to let the user specify the file name
-                            model.saveImage("temp.json");
+                        // If the statusCode is > 0, dispose of the window and exit
+                        if (statusCode > 0) {
+                            if (statusCode == 2) {
+                                // Change to let the user specify the file name
+                                model.saveImage("temp");
+                            }
+
+                            e.getWindow().dispose();
+                            System.exit(0);
                         }
-
+                    } else {
                         e.getWindow().dispose();
                         System.exit(0);
                     }
