@@ -7,6 +7,7 @@
 package ca.andrewmcburney.cs349.a2;
 
 import java.io.File;
+import javax.swing.filechooser.FileFilter;
 import javax.swing.*;
 import javax.swing.SwingUtilities;
 import java.awt.BorderLayout;
@@ -18,32 +19,54 @@ import java.util.Observer;
 import java.awt.Color;
 
 class TopBar extends JPanel implements Observer {
-    private JButton openButton, saveButton, newButton;
     private JFileChooser jFileChooser;
     private JPanel buttonPanel;
     private Model model;
+    private JMenu menu;
+    private JMenuBar menuBar;
+    private JMenuItem newFile, openFile, saveFile;
 
     TopBar(Model model_) {
+        model = model_;
+
+        // Create JFileChooser
         jFileChooser = new JFileChooser();
         jFileChooser.setCurrentDirectory(new File("~/Coding/paint/files"));
         jFileChooser.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
 
-        newButton  = new JButton("New File");
-        openButton = new JButton("Open File");
-        saveButton = new JButton("Save File");
+        // Filter out files that are not .json or .paint
+        jFileChooser.setFileFilter(new FileFilter() {
+            public String getDescription() {
+                return ".json and .paint files";
+            }
 
-        buttonPanel = new JPanel();
-        buttonPanel.add(newButton);
-        buttonPanel.add(openButton);
-        buttonPanel.add(saveButton);
+            public boolean accept(File fileType) {
+                String fileName = fileType.getName().toLowerCase();
+                return (
+                    fileName.endsWith(".json")  ||
+                    fileName.endsWith(".paint") ||
+                    fileType.isDirectory()
+                );
+            }
+        });
 
-        model = model_;
+        newFile  = new JMenuItem("New File", KeyEvent.VK_T);
+        openFile = new JMenuItem("Open File", KeyEvent.VK_T);
+        saveFile = new JMenuItem("Save File", KeyEvent.VK_T);
+
+        menu = new JMenu("File");
+        menu.add(newFile);
+        menu.add(openFile);
+        menu.add(saveFile);
+
+        menuBar = new JMenuBar();
+        menuBar.add(menu);
 
         setLayout(new FlowLayout(FlowLayout.LEFT));
-        add(buttonPanel);
+        add(menuBar);
 
         // Anonymous controller classes
-        newButton.addActionListener(new ActionListener() {
+        newFile.addActionListener(new ActionListener() {
                 public void actionPerformed(ActionEvent e) {
                     Object[] options = {"Cancel", "No", "Yes"};
 
@@ -66,7 +89,7 @@ class TopBar extends JPanel implements Observer {
                     }
                 }
             });
-        openButton.addActionListener(new ActionListener() {
+        openFile.addActionListener(new ActionListener() {
                 public void actionPerformed(ActionEvent e) {
                     int returnVal = jFileChooser.showOpenDialog(TopBar.this);
 
@@ -79,7 +102,7 @@ class TopBar extends JPanel implements Observer {
                     }
                 }
             });
-        saveButton.addActionListener(new ActionListener() {
+        saveFile.addActionListener(new ActionListener() {
                 public void actionPerformed(ActionEvent e) {
                     int returnVal = jFileChooser.showSaveDialog(TopBar.this);
                     if (returnVal == JFileChooser.APPROVE_OPTION) {
@@ -91,10 +114,13 @@ class TopBar extends JPanel implements Observer {
                     }
                 }
             });
+
+        // Set view dimensions
+        setMinimumSize(new Dimension(1000, 40));
+        setMaximumSize(new Dimension(1000, 40));
+        setBackground(Color.decode("#dddddd"));
     }
 
     @Override
-    public void update(Observable observable, Object object) {
-        System.out.println("Top Bar: update");
-    }
+    public void update(Observable observable, Object object) {}
 }

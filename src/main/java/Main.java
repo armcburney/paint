@@ -92,6 +92,7 @@ public class Main {
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 1;
 
+        gridBagConstraints.insets = new Insets(0, 10, 0, 10);
         gridBagConstraints.gridwidth = 1;
         gridBagConstraints.gridheight = 2;
 
@@ -111,7 +112,6 @@ public class Main {
 
         // Fill up the entire screen horizontally
         gridBagConstraints.fill = GridBagConstraints.HORIZONTAL;
-        //gridBagConstraints.anchor = GridBagConstraints.SOUTH;
 
         // Take up the remaining horizontal section
         gridBagConstraints.weightx = 1.0;
