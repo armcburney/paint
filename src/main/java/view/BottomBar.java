@@ -18,6 +18,7 @@ import java.awt.event.*;
 import java.util.Observable;
 import java.util.Observer;
 import java.awt.Color;
+import javax.swing.Timer;
 
 class BottomBar extends JPanel implements Observer {
     private GridBagLayout gridbag;
@@ -28,9 +29,12 @@ class BottomBar extends JPanel implements Observer {
     private JRadioButton playForward, playBackward;
     private JSlider slider;
     private Model model;
+    private Timer forwardTimer, backwardTimer;
 
     BottomBar(Model model_) {
         model = model_;
+        forwardTimer  = new Timer(1, timerTaskForward);
+        backwardTimer = new Timer(1, timerTaskBackward);
 
         // GridBagLayout
         gridbag = new GridBagLayout();
@@ -109,6 +113,26 @@ class BottomBar extends JPanel implements Observer {
             });
     }
 
+    // Timer task listeners
+    ActionListener timerTaskForward = new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                slider.setValue(slider.getValue() + 10);
+
+                if (slider.getValue() >= slider.getMaximum()) {
+                    ((Timer)e.getSource()).stop();
+                }
+            }
+        };
+    ActionListener timerTaskBackward = new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                slider.setValue(slider.getValue() - 10);
+
+                if (slider.getValue() <= 0) {
+                    ((Timer)e.getSource()).stop();
+                }
+            }
+        };
+
     @Override
     public void update(Observable observable, Object object) {
         int numStrokes = model.getDrawing().numStrokes();
@@ -134,6 +158,15 @@ class BottomBar extends JPanel implements Observer {
             slider.setValue(0);
         } else if (object == "sliderEnd") {
             slider.setValue(numStrokes * 1000);
+        } else if (object == "play") {
+            boolean isForward = model.getDrawing().isPlayForward();
+
+            // Play the animation depending on which direction is specified.
+            if (isForward) {
+                forwardTimer.start();
+            } else {
+                backwardTimer.start();
+            }
         }
     }
 }
