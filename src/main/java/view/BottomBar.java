@@ -52,6 +52,8 @@ class BottomBar extends JPanel implements Observer {
         // Add two radio buttons to a button group
         playForward  = new JRadioButton("Forward");
         playBackward = new JRadioButton("Backward");
+        playForward.setEnabled(false);
+        playBackward.setEnabled(false);
         playForward.setSelected(true);
         buttonGroup = new ButtonGroup();
         buttonGroup.add(playForward);
@@ -66,6 +68,8 @@ class BottomBar extends JPanel implements Observer {
         // Buttons for start, end as per specs
         start = new JButton("Start");
         end = new JButton("End");
+        start.setEnabled(false);
+        end.setEnabled(false);
 
         panel = new JPanel(new GridLayout(0, 1));
         panel.setBackground(Color.decode("#dddddd"));
@@ -80,8 +84,16 @@ class BottomBar extends JPanel implements Observer {
 
         if (numStrokes == 0) {
             slider.setEnabled(false);
+            playForward.setEnabled(false);
+            playBackward.setEnabled(false);
+            start.setEnabled(false);
+            end.setEnabled(false);
         } else {
             slider.setEnabled(true);
+            playForward.setEnabled(true);
+            playBackward.setEnabled(true);
+            start.setEnabled(true);
+            end.setEnabled(true);
         }
 
         slider.setMaximum(numStrokes);
